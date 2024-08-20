@@ -1,0 +1,16 @@
+services:
+  otel-stack-dev:
+    build: ./
+    ports:
+      - 8000:8080 #Grafana
+      - 9090:9090 #Prometheus
+      - 3100:3100 # Loki for external
+      - 4317:4317 #OpenTelemetry GRPC endpoint
+      - 4318:4318 # OpenTelemetry HTTP endpoint
+      - 13133:13133 # health_check extension
+    environment:
+      GRAFANA_PASSWORD: ${GRAFANA_PASSWORD}
+      LOKI_RETENTION_PERIOD: 1d
+    volumes:
+      - ./config/prometheus/:/etc/prometheus/
+      - ./data:/data # monitoring data

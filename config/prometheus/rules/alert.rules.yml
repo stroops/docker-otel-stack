@@ -1,0 +1,13 @@
+groups:
+- name: service-alert
+  rules:
+  # Alert for any instance that is unreachable for > 1 minutes.
+  - alert: service_down
+    expr: up == 0
+    for: 1m # For how long the condition should be true to trigger the alert
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} / {{ $labels.application }} has been down for more than 1 minutes."
+    # Labels - additional labels to be attached to the alert
+    labels:
+      severity: 'critical'
